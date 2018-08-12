@@ -7,17 +7,9 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/core/main.c])
 AC_CONFIG_HEADERS([config.h])
 
-# Checks for programs.
-AC_PROG_CC
-
-# Checks for libraries.
-
-# Checks for header files.
-
-# Checks for typedefs, structures, and compiler characteristics.
-
-# Checks for library functions.
+# APR
 AC_ARG_VAR([APRCONFIG], [apr-1-config tool with path])
+
 if test -z "$APRCONFIG"; then
 	AC_PATH_PROG(apr_config, [apr-1-config])
 else
@@ -27,20 +19,34 @@ fi
 if test "x$apr_config" = "x"; then
     AC_MSG_ERROR([apr library not found])
 fi
+APR_LIBS=`$apr_config --link-ld --libs`
+LIBS="$LIBS $APR_LIBS"
 
-APR_LIBS=`$apr_config --link-ld --libs `
 APR_CFLAGS=`$apr_config --cppflags`
-
 CFLAGS="$CFLAGS $APR_CFLAGS"
-LIBS="$LIBS $APR_LIBS "
 
-APR_LDFLAGS=`$apr_config --ldflags `
-LDFLAGS="$LDFLAGS $APR_LDFLAGS"
+APR_LDFLAGS=`$apr_config --ldflags`
+LDFLAGS="$LDFLAGS $APR_LDFLAGS -lsigar"
+
 APR_INCLUDES=`$apr_config --includes`
 INCLUDES="$INCLUDES $APR_INCLUDES"
 
+# Checks for programs.
+AC_PROG_CC
+# APR
 
+# Checks for libraries.
+
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
 AC_CONFIG_FILES([Makefile
                  src/Makefile
                  src/core/Makefile])
+AC_SUBST(INCLUDES)
+AC_SUBST(APR_LIBS)
+AC_SUBST(APR_CFLAGS)
+
 AC_OUTPUT
