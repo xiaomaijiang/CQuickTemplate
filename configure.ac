@@ -1,9 +1,11 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
-
+#指定最低的Autoconf版本为2.69
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AM_INIT_AUTOMAKE
+
+#指定应用名称、版本、邮箱地址
+AC_INIT(main, 1.0, 15875339926@139.com)
+
+#检查Automake的必要工具
+AM_INIT_AUTOMAKE(foreign -Wall)
 AC_CONFIG_SRCDIR([src/core/main.c])
 AC_CONFIG_HEADERS([config.h])
 
